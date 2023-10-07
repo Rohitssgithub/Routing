@@ -1,0 +1,25 @@
+.mainbodyContainer{
+    display: flex;
+    height: 100vh;
+}
+.mainContainer{
+    width: 20%;
+    height: 100vh;
+
+
+ul{
+    display: flex;
+    flex-direction: column;
+}
+}
+.contentDiv{
+    width: 80%;
+    // padding: 20px;
+    border: solid;
+}
+
+.table{
+    border: solid;
+    width: calc(100vw - 326px) !important;  
+    max-height: calc(100vh - 140px);
+}

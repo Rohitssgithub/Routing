@@ -1,0 +1,138 @@
+
+.table {
+  overflow-x: scroll;
+  border: solid;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background: white;
+    border-radius: 0 0 5px 5px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: #572fca;
+    border-radius: 3px;
+  }
+
+  :global {
+    .rdt_TableHeadRow {
+      color: #0B0E1D;
+      font-size: 11px;
+      border: 1px solid rgba(241, 243, 249, 0.50);
+      font-weight: 600;
+    }
+
+    .rdt_TableRow {
+      border-bottom: 1px solid rgba(241, 243, 249, 0.50) !important;
+      font-size: 11px;
+    }
+
+    .rdt_TableHead {
+      z-index: 3;
+      padding: 0px !important;
+    }
+
+    .rdt_TableBody {
+      border: solid red;
+      max-height: calc(100vh - 180px);
+      overflow: auto;
+      &::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background-color: #572fca;
+        border-radius: 3px;
+      }
+    }
+  }
+}
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0px;
+  // height: 70px;
+
+  .dataRange {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .paginationRightSide {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    gap: 10px;
+
+    .dropdownText {
+      font-size: 14px;
+    }
+    .rowPerPageDropdown {
+      font-size: 14px;
+      border: none;
+      border-bottom: 1px solid #9a9a9a;
+      outline: none;
+      margin-top: 4px;
+      width: 50px;
+      cursor: pointer;
+    }
+
+    .paginationContainer {
+      width: fit-content;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-left: 15px;
+      font-size: 12px;
+
+      .arrowBox {
+        width: 25px;
+        height: 25px;
+        background: #D4DAED;
+        display: flex;
+        justify-content: center;
+        align-items: center !important;
+        border-radius: 5px;
+        cursor: pointer;
+
+        .arrow {
+          width: 8px;
+          aspect-ratio: 2;
+          margin-bottom: 2px;
+        }
+
+        .previousArrow {
+          transform: rotate(90deg);
+        }
+        .nextArrow {
+          transform: rotate(-90deg);
+        }
+      }
+
+      .page {
+        width: 25px;
+        height: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .activePage {
+        background-color: #8450F5;
+        color: #fff;
+        border-radius: 5px;
+      }
+
+      .disabled {
+        opacity: 0.5;
+      }
+    }
+  }
+}
