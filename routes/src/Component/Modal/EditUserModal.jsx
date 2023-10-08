@@ -18,11 +18,6 @@ const EditUserModal = (props) => {
 
     let dispatch = useDispatch()
 
-
-
-    // const handlechange = (e) => {
-    //     SetUser({ ...user, [e.target.name]: e.target.value })
-    // }
     const SignupSchema = Yup.object().shape({
         name: Yup.string()
             .min(2, 'Too Short!')
@@ -44,9 +39,16 @@ const EditUserModal = (props) => {
         email: formData.email,
         phone: formData.phone,
     }
+    console.log(props?.seletedData)
+
+    const handleCloseFun = () => {
+        props?.setModalOpen(false)
+    }
+    const isUpdating = Object.keys(formData).length > 0;
+
     return (
         <>
-            <BasicModal heading={'Add user'} {...props}>
+            <BasicModal heading={isUpdating ? 'update user' : 'Add user'} {...props}>
                 <div>
                     <Formik
                         initialValues={Object.keys(formData).length === 0 ? initialValues : modi}
@@ -56,10 +58,9 @@ const EditUserModal = (props) => {
 
                             if (Object.keys(formData).length === 0) {
                                 dispatch(addUser(values))
+                                props?.setModalOpen(false)
                             }
                             else {
-                                // console.log("payload",payload)
-                                // dispatch(updateUser(payload))
                                 dispatch(updateUser({ id: ids, value: values }))
                                 props?.setModalOpen(false)
                             }
@@ -95,7 +96,8 @@ const EditUserModal = (props) => {
                                         : null}
                                 </div>
                                 <div className="mb-3 text-center">
-                                    <Button label="submit" className='btn btn-danger' type='submit' />
+                                    <Button label={isUpdating ? 'update' : 'Add'} className='btn btn-danger mx-2' type='submit' />
+                                    <Button label='close' className='btn btn-primary' onClick={handleCloseFun} />
                                 </div>
                             </Form>
                         )}

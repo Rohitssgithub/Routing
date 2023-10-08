@@ -17,7 +17,10 @@ const style = {
 };
 
 export default function BasicModal({ heading, modalOpen, setModalOpen, children }) {
-  const handleClose = () => setModalOpen(false);
+  console.log(modalOpen)
+  console.log(children)
+
+  // const handleClose = () => setModalOpen(false);
 
   return (
     <>
@@ -25,7 +28,7 @@ export default function BasicModal({ heading, modalOpen, setModalOpen, children 
         modalOpen &&
         <Modal
           open={open}
-          onClose={handleClose}
+          // onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >

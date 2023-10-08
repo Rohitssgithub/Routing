@@ -1,55 +1,78 @@
 import React, { useMemo, useState } from 'react'
 import styles from './SidebarNavigation.module.scss'
-import { Link, useLocation ,NavLink} from 'react-router-dom';
+import { Link, useLocation, NavLink } from 'react-router-dom';
 import { PATH, PORTALS_NAMES, PORTALS } from '../../constant/constant';
-console.log(PORTALS_NAMES)
+import classNames from 'classnames';
+// console.log(PORTALS_NAMES)
 
 
-export const sideBarNavigation = Object.values(PORTALS_NAMES).reduce((acc, portalName) => {
-    // console.log(Object.values(PATH[portalName].children))
-    // return portalName
-    const portalData = PATH[portalName];
+// export const sideBarNavigation = Object.values(PORTALS_NAMES).reduce((acc, portalName) => {
+//     // console.log(Object.values(PATH[portalName].children))
+//     // return portalName
+//     const portalData = PATH[portalName];
 
-    if (portalData && portalData.children) {
-        acc[portalName] = Object.values(portalData.children)
-            .filter(x => x.sidebar)
-            .map((pageData, index) => ({
-                id: index + 1,
-                path: pageData.path,
-                pageName: pageData.sidebar.name || pageData.pageName
-            }));
-    } else {
-        // Handle the case where PATH[portalName] or children are undefined
-        console.error(`No data found for portal: ${portalName}`);
-    }
-    return acc
-}, {})
+//     if (portalData && portalData.children) {
+//         acc[portalName] = Object.values(portalData.children)
+//             .filter(x => x.sidebar)
+//             .map((pageData, index) => ({
+//                 id: index + 1,
+//                 path: pageData.path,
+//                 pageName: pageData.sidebar.name || pageData.pageName
+//             }));
+//     } else {
+//         // Handle the case where PATH[portalName] or children are undefined
+//         console.error(`No data found for portal: ${portalName}`);
+//     }
+//     return acc
+// }, {})
+
+export const combineClasses = (...classes) => {
+    return classes.join(" ")
+}
 
 
 const SidebarNavigation = () => {
 
     const location = useLocation();
-    const sidebarObj = useMemo(() => {
-        const temp = Object.keys(PORTALS)
-        return temp?.length && temp.reduce((acc, item) => {
-            acc[item] = false
-            return acc
-        }, {})
-    }, [])
-    const [sidebarItemsOpen, setSidebarItemsOpen] = useState(sidebarObj);
 
-    console.log(sidebarItemsOpen)
+    // const sidebarObj = useMemo(() => {
+    //     const temp = Object.keys(PORTALS)
+    //     return temp?.length && temp.reduce((acc, item) => {
+    //         acc[item] = false
+    //         return acc
+    //     }, {})
+    // }, [])
+    // const [sidebarItemsOpen, setSidebarItemsOpen] = useState(sidebarObj);
 
-    console.log(PORTALS)
+    // console.log(sidebarItemsOpen)
+
+    // console.log(PORTALS)
 
     return (
         <>
             <div className={styles.mainContainer}>
                 <ul>
-                    <Link to="/">home</Link >
-                    <Link to="/about">about</Link>
-                    <Link to="/userList">user</Link>
-                    <Link to="/login">login</Link>
+                    <NavLink className={styles.navLink} to="/">home</NavLink >
+                    <NavLink className={styles.navLink} to="/about">about</NavLink>
+                    <NavLink className={styles.navLink} to="/userList">user</NavLink>
+                    <NavLink className={styles.navLink} to="/login">login</NavLink>
+                    {/* <NavLink
+                        className={({ isActive }) =>
+                            `${styles.navLink} ${isActive && styles.activeLink}`
+                        }
+                        to="/"
+                    >
+                        Home
+                    </NavLink>
+                    <NavLink className={`styles.navLink ${isActive('/about')}`} to="/about">
+                        About
+                    </NavLink>
+                    <NavLink className={`styles.navLink ${isActive('/userList')}`} to="/userList">
+                        User
+                    </NavLink>
+                    <NavLink className={`styles.navLink ${isActive('/login')}`} to="/login">
+                        Login
+                    </NavLink> */}
                 </ul>
                 {/* {Object.entries(PORTALS).length && Object.entries(PORTALS).map(([key, value]) => {
                     console.log(PORTALS)

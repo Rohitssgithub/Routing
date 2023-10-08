@@ -29,10 +29,6 @@ export const router = createBrowserRouter([
                 path: "/userList",
                 element: <PrivateRoute component={UserList} />
             },
-            // {
-            //     path: "/login",
-            //     element: <PublicRoute component={Login} />
-            // },
 
         ]
     },

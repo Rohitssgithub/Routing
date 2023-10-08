@@ -42,15 +42,26 @@ export const updateUser = createAsyncThunk(
         console.log('thunkAPI', thunkAPI)
         try {
             let data = await axios.put(`https://64e34f09bac46e480e789213.mockapi.io/user/${thunkAPI.id}`, thunkAPI.value);
-            console.log("data",data)
+            console.log("data", data)
+            return data.data
         } catch (err) {
-            // toast.error("failed to update", {
-            //     position: "top-center"
-            // })
             console.log(err)
         }
     }
 )
+
+
+export const deleteUser = createAsyncThunk("delete/user", async (id, { rejectWithValue }) => {
+    console.log(id)
+    const response = await axios.delete(`https://64e34f09bac46e480e789213.mockapi.io/user/${id}`);
+    console.log(response)
+    try {
+        const result = await response.data;
+        return result;
+    } catch (error) {
+        return rejectWithValue(error);
+    }
+})
 
 
 const userReducer = createSlice({
@@ -88,15 +99,25 @@ const userReducer = createSlice({
             state.loading = true;
         },
         [updateUser.fulfilled]: (state, action) => {
-
-            const { id, data } = action.payload;
-            console.log('id', id)
+            console.log(action.payload);
+            state.loading = false;
             state.allusers = state.allusers.map((ele) =>
-                // console.log('state.allusers', state.allusers)
-                ele.id === id ? data : ele
+                ele.id === action.payload.id ? action.payload : ele
             );
         },
         [updateUser.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        [deleteUser.pending]: (state) => {
+            state.loading = true;
+        },
+        [deleteUser.fulfilled]: (state, action) => {
+            console.log(action.payload)
+            state.loading = false;
+            state.allusers = state.allusers.filter((ele) => ele.id !== action.payload.id);
+        },
+        [deleteUser.rejected]: (state, action) => {
             state.loading = false;
             state.error = action.payload;
         },

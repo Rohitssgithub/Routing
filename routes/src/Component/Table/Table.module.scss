@@ -1,7 +1,9 @@
-
 .table {
-  overflow-x: scroll;
-  border: solid;
+  // overflow-x: scroll;
+  // border: solid yellow;
+  max-height: calc(100vh - 140px);
+  overflow-x: auto !important;
+
 
   &::-webkit-scrollbar {
     width: 5px;
@@ -9,7 +11,7 @@
     background: white;
     border-radius: 0 0 5px 5px;
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background-color: #572fca;
     border-radius: 3px;
@@ -19,12 +21,11 @@
     .rdt_TableHeadRow {
       color: #0B0E1D;
       font-size: 11px;
-      border: 1px solid rgba(241, 243, 249, 0.50);
       font-weight: 600;
+      background-color: red;
     }
 
     .rdt_TableRow {
-      border-bottom: 1px solid rgba(241, 243, 249, 0.50) !important;
       font-size: 11px;
     }
 
@@ -34,21 +35,28 @@
     }
 
     .rdt_TableBody {
-      border: solid red;
-      max-height: calc(100vh - 180px);
+      max-height: calc(100vh - 260px);
       overflow: auto;
+
       &::-webkit-scrollbar {
         width: 5px;
         height: 5px;
       }
-      
+
       &::-webkit-scrollbar-thumb {
         background-color: #572fca;
         border-radius: 3px;
       }
     }
+
+    .gmlwXk {
+      overflow: hidden;
+      border-radius: 8px;
+    }
   }
+
 }
+
 .pagination {
   display: flex;
   justify-content: space-between;
@@ -70,6 +78,7 @@
     .dropdownText {
       font-size: 14px;
     }
+
     .rowPerPageDropdown {
       font-size: 14px;
       border: none;
@@ -110,6 +119,7 @@
         .previousArrow {
           transform: rotate(90deg);
         }
+
         .nextArrow {
           transform: rotate(-90deg);
         }
@@ -136,3 +146,5 @@
     }
   }
 }
+
+.rdt_Pagination {}

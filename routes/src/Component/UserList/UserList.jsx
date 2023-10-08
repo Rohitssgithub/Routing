@@ -15,7 +15,7 @@ import { fetchAllUsers } from '../../Redux/Slice/UserSlice';
 
 import EditUserModal from '../Modal/EditUserModal';
 import Loading from '../Loading/Loading';
-
+import UserDeleteModal from '../Modal/UserDeleteModal';
 const UserList = () => {
     let dispatch = useDispatch()
 
@@ -25,12 +25,16 @@ const UserList = () => {
 
 
     const [modalOpen, setModalOpen] = useState(false)
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+
 
     let [user, setUsers] = useState([])
     const [rowsPerPageValue, setRowsPerPageValue] = useState(10);
     const [count, setCount] = useState(0);
     const [pageSelected, setPageSelected] = useState(1);
     const [seletedData, setSelectedData] = useState({});
+    const [deleteId, setDeleteId] = useState(null);
+
 
 
     const handleUpdate = (data) => {
@@ -38,6 +42,12 @@ const UserList = () => {
         setSelectedData(data)
         setModalOpen(true)
     }
+    const handleDelete = (data) => {
+        setDeleteModalOpen(true)
+        console.log(data)
+        setDeleteId(data.id)
+    }
+
     const columns = [
         {
             name: 'Name',
@@ -59,8 +69,8 @@ const UserList = () => {
             cell: (row) => {
                 return (
                     <>
-                        <Button label='Edit' className='btn btn-primary' onClick={() => handleUpdate(row)} />
-                        <Button label='Delete' className='btn btn-danger' />
+                        <Button label='Edit' className='btn btn-primary mx-2' onClick={() => handleUpdate(row)} />
+                        <Button label='Delete' className='btn btn-danger' onClick={() => handleDelete(row)} />
                     </>
                 )
             },
@@ -74,14 +84,20 @@ const UserList = () => {
 
     useEffect(() => {
         dispatch(fetchAllUsers())
-    }, [])
-    console.log(modalOpen)
+    }, [seletedData])
     return (
         <>
             {
                 modalOpen && <EditUserModal modalOpen={modalOpen} setModalOpen={setModalOpen} seletedData={seletedData} />
             }
-            <Button label="Add User" className='btn btn-danger my-3' onClick={handleAddFunction} />
+
+            {
+                deleteModalOpen && <UserDeleteModal deleteModalOpen={deleteModalOpen} setDeleteModalOpen={setDeleteModalOpen} setDeleteId={setDeleteId} deleteId={deleteId} />
+            }
+
+            <div className={styles.topDiv}>
+                <Button label="Add User" className='btn btn-danger my-3 ' onClick={handleAddFunction} />
+            </div>
             <Table
                 columns={columns}
                 data={allusers}
@@ -97,7 +113,8 @@ const UserList = () => {
                 }}
 
             />
-            {/* {loading && <Loading />} */}
+            {loading && <Loading />}
+
         </>
     )
 }
