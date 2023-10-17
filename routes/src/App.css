@@ -2,9 +2,15 @@ body {
     margin: 0;
     padding: 0;
     background-color: rgba(216, 216, 224, 0.618);
+    font-family: 'Poppins', sans-serif;
 }
 
 *:focus {
     outline: none;
     box-shadow: none !important;
+}
+
+p{
+    margin: 0;
+    padding: 0;
 }

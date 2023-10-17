@@ -6,6 +6,10 @@ import * as Yup from 'yup';
 import { addUser } from '../../Redux/Slice/UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../Redux/Slice/UserSlice';
+import FormikControl from '../formikControl/FormikControl';
+import styles from '../../Component/Modal/Modal.module.scss'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const EditUserModal = (props) => {
@@ -33,11 +37,13 @@ const EditUserModal = (props) => {
         name: '',
         email: '',
         phone: '',
+        gender: ''
     }
     const modi = {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
+        gender: formData.gender
     }
     console.log(props?.seletedData)
 
@@ -46,11 +52,18 @@ const EditUserModal = (props) => {
     }
     const isUpdating = Object.keys(formData).length > 0;
 
+
+    const checkboxOptions = [
+        { key: 'male', value: 'male' },
+        { key: 'female', value: 'female' }
+
+    ]
+
     return (
         <>
             <BasicModal heading={isUpdating ? 'update user' : 'Add user'} {...props}>
                 <div>
-                    <Formik
+                    {/* <Formik
                         initialValues={Object.keys(formData).length === 0 ? initialValues : modi}
                         validationSchema={SignupSchema}
                         onSubmit={values => {
@@ -102,6 +115,62 @@ const EditUserModal = (props) => {
                             </Form>
                         )}
 
+                    </Formik> */}
+                    <Formik
+                        initialValues={Object.keys(formData).length === 0 ? initialValues : modi}
+                        validationSchema={SignupSchema}
+                        onSubmit={values => {
+                            console.log('values', values)
+
+                            if (Object.keys(formData).length === 0) {
+                                dispatch(addUser(values))
+                                props?.setModalOpen(false)
+                                toast.success('User Added Successfully')
+                            }
+                            else {
+                                dispatch(updateUser({ id: ids, value: values }))
+                                props?.setModalOpen(false)
+                                toast.success('User updated Successfully')
+                            }
+                        }}
+                    >
+                        {formik => {
+                            return (
+                                <Form>
+                                    <FormikControl
+                                        control='input'
+                                        type='text'
+                                        label='Enter Your Username'
+                                        placeholder='Enter Your Username'
+                                        name='name'
+                                    />
+                                    <FormikControl
+                                        control='input'
+                                        type='email'
+                                        label='Enter Your email'
+                                        placeholder='Enter Your email'
+                                        name='email'
+                                    />
+                                    <FormikControl
+                                        control='input'
+                                        type='number'
+                                        label='Enter Your Phone'
+                                        placeholder='Enter Your Phone'
+                                        name='phone'
+                                    />
+                                    <FormikControl
+                                        control='radio'
+                                        label='Please select gender'
+                                        name='gender'
+                                        options={checkboxOptions}
+                                    />
+                                    <div className={styles.btnDiv}>
+                                        <Button label={isUpdating ? 'update' : 'Add'} className='btn btn-danger mx-2' type='submit' />
+                                        <Button label='close' className='btn btn-primary' onClick={handleCloseFun} />
+                                    </div>
+                                </Form>
+                            )
+                        }}
                     </Formik>
                 </div>
             </BasicModal>

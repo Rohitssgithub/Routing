@@ -12,56 +12,79 @@ import BasicModal from '../Modal/Modal';
 import Button from '../Button/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllUsers } from '../../Redux/Slice/UserSlice';
-
 import EditUserModal from '../Modal/EditUserModal';
 import Loading from '../Loading/Loading';
 import UserDeleteModal from '../Modal/UserDeleteModal';
+import SingleUserModal from '../Modal/SingleUserModal/SingleUserModal';
+import { searchUser } from '../../Redux/Slice/UserSlice';
+import { debounce } from 'lodash'; // You need to install the lodash library
+
+import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
+
 const UserList = () => {
     let dispatch = useDispatch()
-
-    const { allusers, loading } = useSelector((state) => state.users)
-    console.log(allusers)
-
-
-
+    const { allusers, loading, filterUser } = useSelector((state) => state.users)
     const [modalOpen, setModalOpen] = useState(false)
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
-
-
     let [user, setUsers] = useState([])
     const [rowsPerPageValue, setRowsPerPageValue] = useState(10);
     const [count, setCount] = useState(0);
     const [pageSelected, setPageSelected] = useState(1);
     const [seletedData, setSelectedData] = useState({});
     const [deleteId, setDeleteId] = useState(null);
+    const [singleUserModal, setSingleUserModal] = useState(false);
+    const [singleUser, setSingleUser] = useState(false);
 
 
+
+    console.log('filterUser', filterUser)
 
     const handleUpdate = (data) => {
-        console.log(data)
         setSelectedData(data)
         setModalOpen(true)
     }
     const handleDelete = (data) => {
         setDeleteModalOpen(true)
-        console.log(data)
         setDeleteId(data.id)
+
     }
+    const handleAddFunction = () => {
+        setSelectedData({})
+        setModalOpen(true)
+    }
+    const handleNameClick = (row) => {
+        setSingleUser(row.id)
+        setSingleUserModal(true)
+    };
 
     const columns = [
         {
             name: 'Name',
+            selector: (row) => (
+                <span
+                    className="user-name-link"
+                    onClick={() => handleNameClick(row)}
+                    style={{ cursor: 'pointer' }}
+                >
+                    {row.name}
+                </span>
+            ),
+            sortable: true,
+        },
+        {
+            name: 'Email',
             selector: row => row.email,
             sortable: true,
         },
         {
-            name: 'age',
-            selector: row => row.name,
+            name: 'Phone',
+            selector: row => row.phone,
             sortable: true,
         },
         {
-            name: 'email',
-            selector: row => row.phone,
+            name: 'Gender',
+            selector: row => row.gender,
             sortable: true,
         },
         {
@@ -69,24 +92,36 @@ const UserList = () => {
             cell: (row) => {
                 return (
                     <>
-                        <Button label='Edit' className='btn btn-primary mx-2' onClick={() => handleUpdate(row)} />
-                        <Button label='Delete' className='btn btn-danger' onClick={() => handleDelete(row)} />
+                        <Button label={<i className="fa-solid fa-pen-to-square"></i>} className='btn border mx-2' onClick={() => handleUpdate(row)} />
+                        <Button label={<i className="fa-solid fa-trash"></i>} className='btn border' onClick={() => handleDelete(row)} />
                     </>
                 )
             },
         },
     ];
 
-    const handleAddFunction = () => {
-        setSelectedData({})
-        setModalOpen(true)
-    }
+
+
+    const handleChange = (e) => {
+        const searchValue = e.target.value;
+        console.log('Input value:', searchValue);
+        let timer = setTimeout(() => {
+            dispatch(searchUser(searchValue))
+        }, 1000);
+        return () => {
+            clearTimeout(timer)
+        }
+    };
+
 
     useEffect(() => {
         dispatch(fetchAllUsers())
-    }, [seletedData])
+    }, [])
     return (
         <>
+            {
+                singleUserModal && <SingleUserModal singleUser={singleUser} setSingleUser={setSingleUser} setSingleUserModal={setSingleUserModal} singleUserModal={singleUserModal} />
+            }
             {
                 modalOpen && <EditUserModal modalOpen={modalOpen} setModalOpen={setModalOpen} seletedData={seletedData} />
             }
@@ -96,11 +131,14 @@ const UserList = () => {
             }
 
             <div className={styles.topDiv}>
+                <div class="mb-3">
+                    <input type="search" onChange={(e) => handleChange(e)} class="form-control" id="exampleFormControlInput1" placeholder="Search" />
+                </div>
                 <Button label="Add User" className='btn btn-danger my-3 ' onClick={handleAddFunction} />
             </div>
             <Table
                 columns={columns}
-                data={allusers}
+                data={filterUser.length == 0 ? allusers : filterUser}
                 className={styles.candidatesTable}
                 paginationProps={{
                     isPagination: true,
@@ -114,6 +152,8 @@ const UserList = () => {
 
             />
             {loading && <Loading />}
+
+
 
         </>
     )

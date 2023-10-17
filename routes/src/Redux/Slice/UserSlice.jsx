@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import Error from '../../Component/Error/Error';
+
+const apiUrl = import.meta.env.VITE_REACT_API_URL;
+
 
 export const fetchAllUsers = createAsyncThunk('showUser', async () => {
     try {
-        let response = await axios.get('https://64e34f09bac46e480e789213.mockapi.io/user');
+        let response = await axios.get(`${apiUrl}/user`);
         return response.data
     }
     catch (err) {
@@ -13,9 +15,22 @@ export const fetchAllUsers = createAsyncThunk('showUser', async () => {
 
 });
 
+export const fetchSingleUser = createAsyncThunk(
+    "user/single",
+    async (id) => {
+        console.log('thunkAPI', id)
+        try {
+            let data = await axios.put(`${apiUrl}/user/${id}`);
+            console.log("data", data)
+            return data.data
+        } catch (err) {
+            console.log(err)
+        }
+    }
+)
 export const addUser = createAsyncThunk("addUser", async (formData, { rejectWithValue }) => {
     console.log('call')
-    const response = await fetch("https://64e34f09bac46e480e789213.mockapi.io/user",
+    const response = await fetch(`${apiUrl}/user`,
         {
             method: "POST",
             mode: 'cors',
@@ -41,7 +56,7 @@ export const updateUser = createAsyncThunk(
     async (thunkAPI) => {
         console.log('thunkAPI', thunkAPI)
         try {
-            let data = await axios.put(`https://64e34f09bac46e480e789213.mockapi.io/user/${thunkAPI.id}`, thunkAPI.value);
+            let data = await axios.put(`${apiUrl}/user/${thunkAPI.id}`, thunkAPI.value);
             console.log("data", data)
             return data.data
         } catch (err) {
@@ -53,7 +68,7 @@ export const updateUser = createAsyncThunk(
 
 export const deleteUser = createAsyncThunk("delete/user", async (id, { rejectWithValue }) => {
     console.log(id)
-    const response = await axios.delete(`https://64e34f09bac46e480e789213.mockapi.io/user/${id}`);
+    const response = await axios.delete(`${apiUrl}/user/${id}`);
     console.log(response)
     try {
         const result = await response.data;
@@ -68,8 +83,17 @@ const userReducer = createSlice({
     name: 'users',
     initialState: {
         allusers: [],
+        singleUsers: [],
+        filterUser: [],
         loading: false,
         error: null,
+    },
+    reducers: {
+        searchUser: (state, action) => {
+            state.filterUser = state.allusers.filter((ele) => {
+                return ele.name.toLowerCase().includes(action.payload)
+            })
+        },
     },
 
     extraReducers: {
@@ -121,7 +145,20 @@ const userReducer = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        [fetchSingleUser.pending]: (state) => {
+            state.loading = true;
+        },
+        [fetchSingleUser.fulfilled]: (state, action) => {
+            state.loading = false;
+            state.singleUsers = action.payload
+        },
+        [fetchSingleUser.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.payload.message;
+        },
     }
 })
 
-export default userReducer.reducer
+export default userReducer.reducer;
+
+export const { searchUser } = userReducer.actions;

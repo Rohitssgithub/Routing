@@ -12,7 +12,7 @@ const Table = (props) => {
             <DataTable
                 {...props}
                 className={styles.table}
-                // progressComponent={<Loading />}
+                progressComponent={<Loading />}
                 pagination
                 responsive
             />

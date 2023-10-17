@@ -17,11 +17,6 @@ const style = {
 };
 
 export default function BasicModal({ heading, modalOpen, setModalOpen, children }) {
-  console.log(modalOpen)
-  console.log(children)
-
-  // const handleClose = () => setModalOpen(false);
-
   return (
     <>
       {

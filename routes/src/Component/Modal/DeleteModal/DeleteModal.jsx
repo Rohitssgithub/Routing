@@ -7,6 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteUser } from '../../../Redux/Slice/UserSlice';
+import { toast } from 'react-toastify'
 const DeleteModal = (props) => {
     console.log(props)
     let dispatch = useDispatch()
@@ -17,6 +18,7 @@ const DeleteModal = (props) => {
         console.log(id)
         dispatch(deleteUser(id))
         props.setDeleteModalOpen(false)
+        toast.success('Deleted Successfully')
     }
     return (
         <>

@@ -1,69 +1,38 @@
-.mainbodyContainer {
+.layout {
     display: flex;
-    height: 100vh;
-    background-color: rgb(47, 29, 29);
-    padding: 20px;
-    width: 100vw;
     overflow: hidden;
-
-}
-
-.mainContainer {
-    width: 20%;
-    display: flex;
-    align-items: start;
-    ul {
+    height: 100vh;
+  
+    .leftSideContainer {
+      width: 100%;
+      max-width: 240px;
+      background-color: #fff;
+      height: 100vh;
+      overflow: hidden;
+  
+      .logoContainer {
+        height: 70px;
         display: flex;
-        flex-direction: column;
-        // align-items: center;
-        // border: solid yellow;
-        gap: 15px;
-        margin-top: 20px;
-
-        .navLink {
-            text-decoration: none;
-            color: white;
-            padding: 5px 10px;
-            text-align: start;
-            border-radius: 8px;
-            width: 78%;
-
-            
+        align-items: center;
+        padding: 0 20px;
+        font-weight: 600;
+        font-size: 16px;
+        // border-bottom: 1px solid #bfbfbf;
+  
+        .logo {
+          width: 130px;
         }
-        // .navLink:active{
-        //     background-color: red;
-        // }
-        
-        
-    }
-}
-
-.contentDiv {
-    width: 80%;
-    background-color: rgb(227, 227, 238);
-    border-radius: 8px;
-    padding: 0 20px;
-}
-
-.topDiv {
-   display: flex;
-   align-items: end;
-   justify-content: end;
-   gap: 10px;
-}
-
-
-  
-  
+      }
   
       .navContainer {
         padding: 20px 10px;
+        height: calc(100% - 70px);
         display: grid;
         grid-auto-rows: min-content;
         gap: 10px;
         align-items: center;
         overflow: auto;
-        width: 100%;
+  
         .linksDiv{
           display: flex;
           flex-direction: column;
@@ -82,12 +51,15 @@
   
         .portalNavLink {
           display: flex;
-          justify-content: start;
-          padding: 0 10px;
+          justify-content: space-between;
+          align-items: center;
           text-decoration: none;
           gap: 20px;
           font-size: 16px;
+          // color: #333;
+          padding: 0 10px;
           width: 90%;
+          height: 35px;
           font-weight: 600;
   
           .icon {
@@ -110,30 +82,53 @@
         }
   
         .navLink {
-          text-decoration: none;
-          font-size: 14px;
-          animation: pop-in 100ms ease-out;
-          width: 75%;
           display: flex;
-          justify-content: start;
           align-items: center;
+          text-decoration: none;
+          gap: 20px;
+          font-size: 14px;
+          color: #525252;
+          padding: 0 15px;
+          height: 35px;
+          animation: pop-in 100ms ease-out;
+          margin-top: 5px;
+          width: 75%;
         
           .pageli{
             text-align: left;
             font-size: 12px;
           }
   
+          .icon {
+            width: 15px;
+          }
+  
+          // &:hover {
+          //   background-color: #dde0ffc0;
+          //   color: #000000;
+          //   font-weight: 600;
+          //   border-radius: 8px;
+          // }
         }
         .activeLink {
-          background-color: #898a9a;
+          // background-color: #edf0fd80;
+          background-color: #393F93;
           color: #000000;
           font-weight: 600;
           border-radius: 8px;
           color: #fff;
         }
       }
-    
+    }
   
+    .rightSideContainer {
+      width: 100%;
+      max-width: calc(100% - 220px);
+    background-color: #F5F7FA;
+    position: relative;
+    .outletDiv{
+  padding: 0 20px ;
+    }
   
       .topBarContainer {
         height: 70px;
@@ -221,7 +216,7 @@
   
           }
         }
-      
+      }
       .logoutButton {
         border: 1px solid #878585 !important;
         padding: 2px;
@@ -279,7 +274,7 @@
         }
       }
     }
-  
+  }
   
   @keyframes pop-in {
     0% {

@@ -2,10 +2,8 @@ import React from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 import './App.css'
-
-import { router } from './Routing/routing'
-import styles from './Component/sideBarNavigation/SidebarNavigation.module.scss'
-import SidebarNavigation from './Component/sideBarNavigation/SidebarNavigation';
+import { router } from './Routing/routing';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 const App = () => {
   return (
     <>
