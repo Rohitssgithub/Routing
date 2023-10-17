@@ -31,13 +31,15 @@ const EditUserModal = (props) => {
         phone: Yup.string()
             .matches(/^\d{10}$/, 'Phone number must be exactly 10 digits')
             .required('Phone number is Required'),
+        date: Yup.date().required('this is required')
     })
 
     const initialValues = {
         name: '',
         email: '',
         phone: '',
-        gender: ''
+        gender: '',
+        date: null
     }
     const modi = {
         name: formData.name,
@@ -163,6 +165,11 @@ const EditUserModal = (props) => {
                                         label='Please select gender'
                                         name='gender'
                                         options={checkboxOptions}
+                                    />
+                                    <FormikControl
+                                        control='date'
+                                        label='Please select gender'
+                                        name='date'
                                     />
                                     <div className={styles.btnDiv}>
                                         <Button label={isUpdating ? 'update' : 'Add'} className='btn btn-danger mx-2' type='submit' />

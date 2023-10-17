@@ -3,7 +3,7 @@ import RadioButtons from './RadioButtons'
 import Select from './Select'
 import TextArea from './TextArea'
 import Checkbox from './CheckboxBtn'
-import DatePicker from './DatePicker'
+import DatePickers from './DatePicker'
 import Password from './Password'
 import Input from './Input'
 
@@ -21,7 +21,7 @@ const FormikControl = (props) => {
 
         case 'checkbox': return <Checkbox {...rest} />
 
-        case 'date': return <DatePicker {...rest} />
+        case 'date': return <DatePickers {...rest} />
 
         case 'password': return <Password {...rest} />
 
