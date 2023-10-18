@@ -31,6 +31,7 @@ const EditUserModal = (props) => {
         phone: Yup.string()
             .matches(/^\d{10}$/, 'Phone number must be exactly 10 digits')
             .required('Phone number is Required'),
+        gender: Yup.string().required('this field is required'),
         date: Yup.date().required('this is required')
     })
 

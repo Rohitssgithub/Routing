@@ -11,6 +11,7 @@ export const userLogin = createAsyncThunk("userLogin", async (data, { rejectWith
     });
     const userData = response.data;
     console.log('userData', userData)
+    localStorage.setItem('userData', JSON.stringify(userData))
     return userData;
 }
 );
