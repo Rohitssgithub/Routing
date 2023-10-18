@@ -38,7 +38,8 @@ const UserList = () => {
 
 
 
-    console.log('filterUser', filterUser)
+    console.log('allUsers', allusers)
+
 
     const handleUpdate = (data) => {
         setSelectedData(data)

@@ -1,11 +1,10 @@
 import React from 'react'
-import DateView from 'react-datepicker';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
-
 import 'react-datepicker/dist/react-datepicker.css'
 import { ErrorMessage, Field } from 'formik'
-import TextError from '../TextError/TextError'
+import TextError from '../TextError/TextError';
+
 const DatePickers = (props) => {
     const { label, name, ...rest } = props
     return (

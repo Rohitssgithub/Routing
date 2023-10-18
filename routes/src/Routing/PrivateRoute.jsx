@@ -3,7 +3,6 @@ import { getToken } from '../utils'
 import { Navigate } from 'react-router-dom'
 
 const PrivateRoute = ({component:Component}) => {
-    console.log(getToken())
   return (
     getToken() ? <Component /> : <Navigate to="/login"/>
   )

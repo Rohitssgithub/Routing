@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { httpRequest } from '../../services/apiservices';
 
 const apiUrl = import.meta.env.VITE_REACT_API_URL;
 
 
 export const fetchAllUsers = createAsyncThunk('showUser', async () => {
     try {
-        let response = await axios.get(`${apiUrl}/user`);
+        let response = await httpRequest.get("/user");
         return response.data
     }
     catch (err) {
@@ -20,7 +21,7 @@ export const fetchSingleUser = createAsyncThunk(
     async (id) => {
         console.log('thunkAPI', id)
         try {
-            let data = await axios.put(`${apiUrl}/user/${id}`);
+            let data = await httpRequest.put(`/user/${id}`);
             console.log("data", data)
             return data.data
         } catch (err) {
@@ -30,20 +31,29 @@ export const fetchSingleUser = createAsyncThunk(
 )
 export const addUser = createAsyncThunk("addUser", async (formData, { rejectWithValue }) => {
     console.log('call')
-    const response = await fetch(`${apiUrl}/user`,
-        {
-            method: "POST",
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData),
-        }
-    );
+    // const response = await fetch(`${apiUrl}/user`,
+    //     {
+    //         method: "POST",
+    //         mode: 'cors',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(formData),
+    //     }
+    // );
+    // try {
+    //     const result = await response.json();
+    //     console.log(result)
+    //     return result;
+    // } catch (error) {
+    //     return rejectWithValue(error);
+    // }
     try {
-        const result = await response.json();
-        console.log(result)
-        return result;
+        // const result = await response;
+        // console.log(result)
+        const response = await httpRequest.post('/user', formData)
+        console.log('response', response)
+        return response.data;
     } catch (error) {
         return rejectWithValue(error);
     }
@@ -56,7 +66,7 @@ export const updateUser = createAsyncThunk(
     async (thunkAPI) => {
         console.log('thunkAPI', thunkAPI)
         try {
-            let data = await axios.put(`${apiUrl}/user/${thunkAPI.id}`, thunkAPI.value);
+            let data = await httpRequest.put(`/user/${thunkAPI.id}`, thunkAPI.value);
             console.log("data", data)
             return data.data
         } catch (err) {
@@ -68,7 +78,7 @@ export const updateUser = createAsyncThunk(
 
 export const deleteUser = createAsyncThunk("delete/user", async (id, { rejectWithValue }) => {
     console.log(id)
-    const response = await axios.delete(`${apiUrl}/user/${id}`);
+    const response = await httpRequest.delete(`/user/${id}`);
     console.log(response)
     try {
         const result = await response.data;

@@ -27,7 +27,7 @@ const SidebarNavigation = () => {
             <div className={styles.mainContainer}>
                 <div className={styles.navContainer}>
                     <NavLink
-                        exact 
+                        exact
                         to="/"
                         className={({ isActive }) =>
                             `${styles.portalNavLink} ${isActive ? styles.portalLinkactive : ""}`

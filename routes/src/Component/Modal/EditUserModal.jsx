@@ -167,9 +167,10 @@ const EditUserModal = (props) => {
                                         name='gender'
                                         options={checkboxOptions}
                                     />
+
                                     <FormikControl
                                         control='date'
-                                        label='Please select gender'
+                                        label='Please select Date'
                                         name='date'
                                     />
                                     <div className={styles.btnDiv}>
